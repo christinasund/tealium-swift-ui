@@ -7,9 +7,20 @@ import SwiftUI
 
 public struct TealiumTextField: View {
     @Binding var value: String
-    var isSecure = false
+    var isSecure: Bool
     var imageName: String?
     var placeholder: String?
+    
+    public init(_ value: Binding<String>,
+        secure: Bool = false,
+        imageName: String? = nil,
+        placeholder: String? = nil) {
+        self._value = value
+        self.isSecure = secure
+        self.imageName = imageName
+        self.placeholder = placeholder
+    }
+    
     public var body: some View {
         HStack {
             if let imageName = imageName {

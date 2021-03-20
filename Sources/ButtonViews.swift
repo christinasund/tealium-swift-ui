@@ -9,7 +9,7 @@ public struct TealiumButton: View {
     var view: AnyView
     var action: () -> Void
     
-    init(view: AnyView,
+    public init(view: AnyView,
          _ action: @escaping () -> Void) {
         self.view = view
         self.action = action
@@ -24,7 +24,8 @@ public struct TealiumTextButton: View {
     var title: String
     var action: () -> Void
     
-    init(title: String, _ action: @escaping () -> Void) {
+    public init(title: String,
+                _ action: @escaping () -> Void) {
         self.title = title
         self.action = action
     }
@@ -48,8 +49,16 @@ public struct TealiumTextButton: View {
 
 public struct TealiumIconButton: View {
     var iconName: String
-    var color: Color = .tealBlue
+    var color: Color
     var action: () -> Void
+    
+    public init(iconName: String,
+                color: Color = .tealBlue,
+                _ action: @escaping () -> Void) {
+        self.iconName = iconName
+        self.color = color
+        self.action = action
+    }
     
     var buttonView: some View {
         Image(systemName: iconName)
@@ -58,7 +67,9 @@ public struct TealiumIconButton: View {
     public var body: some View {
         TealiumButton(view: AnyView(buttonView)) {
             action()
-        }.accentColor(color).font(.title)
+        }
+        .accentColor(color)
+        .font(.title)
     }
 }
 
