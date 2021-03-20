@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-struct TealiumButton: View {
+public struct TealiumButton: View {
     var view: AnyView
     var action: () -> Void
     
@@ -15,12 +15,12 @@ struct TealiumButton: View {
         self.action = action
     }
     
-    var body: some View {
+    public var body: some View {
         Button(action: action) { view }
     }
 }
 
-struct TealiumTextButton: View {
+public struct TealiumTextButton: View {
     var title: String
     var action: () -> Void
     
@@ -39,14 +39,14 @@ struct TealiumTextButton: View {
            .shadow(radius: 8)
     }
     
-    var body: some View {
+    public var body: some View {
         TealiumButton(view: AnyView(buttonView)) {
             action()
         }
     }
 }
 
-struct TealiumIconButton: View {
+public struct TealiumIconButton: View {
     var iconName: String
     var color: Color = .tealBlue
     var action: () -> Void
@@ -55,7 +55,7 @@ struct TealiumIconButton: View {
         Image(systemName: iconName)
     }
     
-    var body: some View {
+    public var body: some View {
         TealiumButton(view: AnyView(buttonView)) {
             action()
         }.accentColor(color).font(.title)

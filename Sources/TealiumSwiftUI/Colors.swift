@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-extension Color {
+public extension Color {
     static let tealBlue = Color(red: 0.0, green: 0.49, blue: 0.76)
 }
 
