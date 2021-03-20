@@ -21,8 +21,7 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "TealiumSwiftUI",
-            dependencies: [],
-            path: "Sources/TealiumSwiftUI/"),
+            path: "Sources"),
         .testTarget(
             name: "TealiumSwiftUITests",
             dependencies: ["TealiumSwiftUI"]),
