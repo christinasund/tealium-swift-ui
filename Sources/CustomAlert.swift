@@ -7,38 +7,45 @@
 
 import SwiftUI
 
-// Workaround until SwiftUI adds text fields to alerts 🤞
-public func customSaveAlert(_ completion: @escaping (String) -> Void) {
-    let attributedTitle = NSAttributedString(string: "Please Verify Your Account", attributes: [
-        NSAttributedString.Key.foregroundColor : UIColor(hex: "#007DC2")
-    ])
-    let alert = UIAlertController(title: "", message: nil, preferredStyle: .alert)
-    alert.view.tintColor = UIColor(hex: "#007DC2")
-    alert.setValue(attributedTitle, forKey: "attributedTitle")
-    alert.addTextField() { textField in
-        textField.superview?.backgroundColor = UIColor.black
-        textField.superview?.superview?.subviews[0].removeFromSuperview()
-        textField.textColor = .white
-        textField.attributedPlaceholder = NSAttributedString(string: "Code From Email",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: "#ffffff"),
-                                                                          NSAttributedString.Key.backgroundColor: UIColor.black])
-    }
-    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in })
-    alert.addAction(UIAlertAction(title: "Enter", style: .default) { _ in
-        guard let name = alert.textFields![0].text else {
-            return
-        }
-        completion(name)
-    })
-    showAlert(alert: alert)
+public struct TealiumAlertOptions {
+    var title: String
+    var titleColor: UIColor
+    var alertBackgroundColor: UIColor
+    var textFieldBackgroundColor: UIColor
+    var textFieldPlaceholderTextColor: UIColor
+    var textFieldPlaceholderText: String
+    var cancelActionTitle: String
+    var confirmActionTitle: String
+    var buttonTextColor: UIColor
+    var confirmActionHandler: ((UIAlertAction) -> Void)?
 }
 
-private func showAlert(alert: UIAlertController) {
+// Workaround until SwiftUI adds text fields to alerts 🤞
+public func customAlert(options: TealiumAlertOptions, completion: @escaping (String) -> Void) {
+    let attributedTitle = NSAttributedString(string: options.title, attributes: [
+        NSAttributedString.Key.foregroundColor : options.titleColor
+    ])
+    let alert = UIAlertController(title: "", message: nil, preferredStyle: .alert)
+    alert.view.tintColor = options.buttonTextColor
+    alert.setValue(attributedTitle, forKey: "attributedTitle")
+    alert.addTextField() { textField in
+        textField.superview?.backgroundColor = options.textFieldBackgroundColor
+        textField.superview?.superview?.subviews[0].removeFromSuperview()
+        textField.attributedPlaceholder = NSAttributedString(string: options.textFieldPlaceholderText,
+                                                             attributes: [NSAttributedString.Key.foregroundColor: options.textFieldPlaceholderTextColor,
+                                                                          NSAttributedString.Key.backgroundColor: options.textFieldBackgroundColor])
+    }
+    alert.addAction(UIAlertAction(title: options.cancelActionTitle, style: .cancel) { _ in })
+    alert.addAction(UIAlertAction(title: options.confirmActionTitle, style: .default, handler: options.confirmActionHandler))
+    showAlert(alert: alert, with: options)
+}
+
+private func showAlert(alert: UIAlertController, with options: TealiumAlertOptions) {
     if let controller = topMostViewController() {
         controller.present(alert, animated: true)
         let subview = (alert.view.subviews.first?.subviews.first?.subviews.first!)! as UIView
         subview.layer.cornerRadius = 10
-        subview.backgroundColor = UIColor(hex: "#2D2D2F")
+        subview.backgroundColor = options.alertBackgroundColor
     }
 }
 
@@ -72,3 +79,4 @@ private func topMostViewController(for controller: UIViewController) -> UIViewCo
     }
     return controller
 }
+
