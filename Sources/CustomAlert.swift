@@ -5,6 +5,7 @@
 //  Copyright © 2021 Tealium. All rights reserved.
 //
 
+#if os(iOS)
 import SwiftUI
 
 public struct TealiumAlertOptions {
@@ -18,6 +19,29 @@ public struct TealiumAlertOptions {
     var confirmActionTitle: String
     var buttonTextColor: UIColor
     var confirmActionHandler: ((UIAlertAction) -> Void)?
+    
+    public init(title: String,
+                titleColor: UIColor,
+                alertBackgroundColor: UIColor,
+                textFieldBackgroundColor: UIColor,
+                textFieldPlaceholderTextColor: UIColor,
+                textFieldPlaceholderText: String,
+                cancelActionTitle: String,
+                confirmActionTitle: String,
+                buttonTextColor: UIColor,
+                confirmActionHandler: ((UIAlertAction) -> Void)?) {
+        self.title = title
+        self.titleColor = titleColor
+        self.alertBackgroundColor = alertBackgroundColor
+        self.textFieldBackgroundColor = textFieldBackgroundColor
+        self.textFieldPlaceholderTextColor = textFieldPlaceholderTextColor
+        self.textFieldPlaceholderText = textFieldPlaceholderText
+        self.cancelActionTitle = cancelActionTitle
+        self.confirmActionTitle = confirmActionTitle
+        self.buttonTextColor = buttonTextColor
+        self.confirmActionHandler = confirmActionHandler
+    }
+    
 }
 
 // Workaround until SwiftUI adds text fields to alerts 🤞
@@ -79,4 +103,4 @@ private func topMostViewController(for controller: UIViewController) -> UIViewCo
     }
     return controller
 }
-
+#endif

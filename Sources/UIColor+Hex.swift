@@ -4,6 +4,7 @@
 //  Created by Christina Schell on 4/4/21.
 //
 
+#if os(iOS)
 import UIKit
 
 public extension UIColor {
@@ -14,4 +15,4 @@ public extension UIColor {
                   blue:  .init(strtoul(String(chars[4...5]),nil,16))/255,
                   alpha: alpha)}
 }
-
+#endif
